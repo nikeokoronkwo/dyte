@@ -15,8 +15,17 @@ const mode = new EnumType(["development", "production"]);
 export const run = new Command()
 .type("dyte-mode", mode)
 .option('-m --mode <mode:dyte-mode>', "The mode to build for")
+.option('--launch', "Launch Web Browser once server is built.")
+.option('--tls-cert <cert>', "The file location of a TLS Certificate to use HTTPS", {
+  depends: ["tls-key"],
+  hidden: true // experimental and has not been implemented
+})
+.option('--tls-key <key>', "The file location of a TLS Key to use HTTPS", {
+  depends: ["tls-cert"],
+  hidden: true // experimental and has not been implemented
+})
   .arguments("[directory]")
-  .action((options: RunOptions, args) => {
+  .action((options, args) => {
     runCommand(options, args);
   });
 

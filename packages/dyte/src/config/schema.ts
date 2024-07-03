@@ -3,6 +3,37 @@ import type { UserInputConfig } from "npm:c12";
 
 export type DyteMode = 'development' | 'production';
 
+// TODO: Add support for https
+interface DyteServerConfig {
+  /** The server port number. @default 8080 */
+  port?: number;
+  /** The hostname of the server. @default "localhost" */
+  host?: string;
+}
+
+interface DyteNPMConfig {
+  /** Whether to install dependencies locally in a `node_modules` directory.
+   *
+   * @default false
+   */
+  nodeModulesDir?: boolean;
+  /**
+   * The package manager used to install the node modules, if any.
+   * Defaults to undefined, meaning none will be used for installing dependencies, and Deno will be used to cache the npm dependencies
+   *
+   * if `nodeModulesDir` is undefined or false, this option is ignored.
+   */
+  packageManager?: "npm" | "pnpm" | "yarn" | "bun";
+  /** The CDN to use to cache NPM dependencies during development.
+   * Defaults to undefined for Dyte's own NPM dependency management.
+   *
+   * if `nodeModulesDir` is true, this option is ignored
+   */
+  cdn?: string;
+}
+
+// TODO: add logLevel, experimental, experimental.multiPackages, experimental.hmr
+// TODO: support for other bundlers, loading page overrides
 /**
  * The base Dyte Config.
  *
@@ -44,33 +75,14 @@ export interface DyteBaseConfig {
   /**
    * Configure the server options for Dyte's development server
    */
-  server?: {
-    /** The server port number. @default 8080 */
-    port?: number;
-    /** The hostname of the server. @default "localhost" */
-    host?: string;
-  };
+  server?: DyteServerConfig;
 
-  npm?: {
-    /** Whether to install dependencies locally in a `node_modules` directory.
-     *
-     * @default false
-     */
-    nodeModulesDir?: boolean;
-    /**
-     * The package manager used to install the node modules, if any.
-     * Defaults to undefined, meaning none will be used for installing dependencies, and Deno will be used to cache the npm dependencies
-     *
-     * if `nodeModulesDir` is undefined or false, this option is ignored.
-     */
-    packageManager?: "npm" | "pnpm" | "yarn" | "bun";
-    /** The CDN to use to cache NPM dependencies during development.
-     * Defaults to undefined for Dyte's own NPM dependency management.
-     *
-     * if `nodeModulesDir` is true, this option is ignored
-     */
-    cdn?: string;
-  };
+  /**
+   * Config options for NPM packages used in the given project.
+   * 
+   * NPM packages are denoted with the `npm:` specifier (`import React from "npm:react";`)
+   */
+  npm?: DyteNPMConfig;
 
   dev?: {
     /**
@@ -80,7 +92,20 @@ export interface DyteBaseConfig {
 	 * @default true
      */
     bundleDeps?: boolean;
+
+    /** 
+     * Whether to initiate a full reload upon receiving changes 
+     * @default false
+     */
+    fullReload?: boolean;
   };
+
+  build?: {
+    /**
+     * The output directory for the build files
+     */
+    outdir?: string;
+  }
 }
 
 /**
