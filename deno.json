@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "deno run -A packages/dyte/main.ts",
+    "dev:create": "deno run -A packages/create-dyte/main.ts"
+  }
+}
