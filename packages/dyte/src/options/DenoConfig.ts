@@ -4,6 +4,7 @@ import { CompilerOptions } from "https://deno.land/x/emit@0.38.2/mod.ts";
 type DenoScope = Record<string, Record<string, string>>;
 type DenoImport = Record<string, string>;
 
+/** Base Configuration of a Deno Configuration File */
 export interface DenoConfig {
   compilerOptions?: CompilerOptions;
   nodeModulesDir?: boolean;
@@ -13,7 +14,9 @@ export interface DenoConfig {
   importMap?: string;
 }
 
-// TODO: Implement functions as single class
+/**
+ * The configuration of a Deno JSON file (`deno.json` or `deno.jsonc`) as a JavaScript Object.
+ */
 export class DenoFile implements DenoConfig {
   compilerOptions: CompilerOptions | undefined;
   nodeModulesDir: boolean | undefined;
