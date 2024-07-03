@@ -1,0 +1,8 @@
+{
+  "name": "@dyte/dyte",
+  "version": "0.0.1-pre",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "publish": {}
+}

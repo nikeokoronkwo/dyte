@@ -1,0 +1,5 @@
+{
+    "tasks": {
+        "dev": "deno run -A packages/dyte/main.ts"
+    }
+}
