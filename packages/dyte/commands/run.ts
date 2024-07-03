@@ -6,6 +6,7 @@ import { watchConfig } from "npm:c12";
 import { generateConfig } from "../src/config/config.ts";
 import { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
+import { createServerOptions } from "../src/cli/createServerOptions.ts";
 
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts"
 
@@ -30,7 +31,7 @@ export const run = new Command()
     // watch config for changes
     const config = await watchConfig({
       name: "dyte",
-      defaultConfig: generateConfig("production", args ?? ".", cwd),
+      defaultConfig: generateConfig("development", args ?? ".", cwd),
       cwd,
       onWatch: (event) => {
         console.log("[watcher]", event.type, event.path);
@@ -44,7 +45,7 @@ export const run = new Command()
       },
       onUpdate({ oldConfig, newConfig, getDiff }) {
         const diff = getDiff();
-        appConfig = newConfig.config ?? generateConfig("production", args ?? ".", cwd);
+        appConfig = newConfig.config ?? generateConfig("development", args ?? ".", cwd);
         console.log("Config updated:\n" + diff.map((i) => i.toJSON()).join("\n"));
   
         devServer.close(function () {
@@ -56,7 +57,7 @@ export const run = new Command()
     });
   
     if (config.config) appConfig = config.config;
-    else appConfig = generateConfig(options, args ?? ".", cwd);
+    else appConfig = generateConfig("development", args ?? ".", cwd);
   
     // get entry file
     devServer = createDevServer(cwd, appConfig);
