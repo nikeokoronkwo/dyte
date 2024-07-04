@@ -7,6 +7,7 @@ import { generateConfig } from "../src/config/config.ts";
 import { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
+import { serve } from "../src/server.ts"
 
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts"
 

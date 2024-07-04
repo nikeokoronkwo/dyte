@@ -17,7 +17,7 @@ function createDevBundleOptions(
 ): BundleOptions {
   return {
     mode: config.mode ?? "development",
-    denoOptions: {
+    denoOptions: config.denoOptions ?? {
       compilerOptions: denoConfig?.compilerOptions,
       importMap: denoConfig?.imports ? {
         baseUrl: config.root,

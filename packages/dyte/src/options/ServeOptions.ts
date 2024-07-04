@@ -3,11 +3,10 @@
  * @todo Complete the documentation
  */
 export interface ServerOptions {
-  port?: string;
-  host?: string;
+  port: string;
+  host: string;
   dir: string;
   dev?: boolean;
-  deno?: {
-    useDeno: boolean | undefined;
-  };
+  publicDir: string | undefined;
+  publicRoot: string;
 }

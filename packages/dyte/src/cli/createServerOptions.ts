@@ -7,6 +7,9 @@ export function createServerOptions(
 ): ServerOptions {
   return {
     dir: cwd,
-    port: config.server?.port?.toString() ?? "8080",
+    port: config.server?.port?.toString() ?? "8000",
+    host: config.server?.host ?? "localhost",
+    publicDir: config.publicDir !== false ? (config.publicDir ?? "public") : undefined,
+    publicRoot: config.publicRoot ?? '/'
   };
 }
