@@ -1,6 +1,6 @@
 {
+  "version": "0.0.1-pre",
   "compilerOptions": {
-    "target": "esnext",
     "lib": [
       "deno.window",
       "dom",
@@ -12,6 +12,7 @@
   "tasks": {
     "dev": "deno run -A --watch packages/dyte/main.ts",
     "test": "deno test .",
-    "format": "deno fmt ."
+    "format": "deno fmt .",
+    "version": "deno run --allow-read --allow-write scripts/version.js"
   }
 }

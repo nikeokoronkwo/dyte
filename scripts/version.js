@@ -1,8 +1,10 @@
 #!/usr/bin/env deno
 
+import { red, green, blue, yellow } from "jsr:@std/fmt/colors";
 import { parseArgs } from "jsr:@std/cli/parse-args"
 import { walk } from "jsr:@std/fs/walk"
 import * as path from "jsr:@std/path"
+import { existsSync } from "jsr:@std/fs/exists";
 
 const result = parseArgs(Deno.args, {
     boolean: ["bump", "sync"],
@@ -15,20 +17,33 @@ const denoJson = JSON.parse(await Deno.readTextFile("deno.json"));
 const version = result.set ?? denoJson.version;
 
 if (result.bump) {
+    console.log(`${green("This isn't supported by this script yet")}`);
+} else {
     if (result._ > 0) {
-
+        for (const arg in result._) {
+            const denoConfigPath = path.join(arg, "deno.json");
+            if (existsSync(denoConfigPath)) updateVersionAt(denoConfigPath);
+            else console.log(yellow(`There is no package at ${arg}. Skipping...`));
+        }
     } else {
-        for await (const item of walk(Deno.cwd(), { includeDirs: false, includeSymlinks: false, exts: [".json"] })) {
+        for await (const item of walk(path.join(Deno.cwd(), "packages"), { includeDirs: false, includeSymlinks: false, exts: [".json"] })) {
             if (item.name === "deno.json") {
-                const directory = path.dirname(item.path);
-                let packageconfig;
+                await updateVersionAt(item.path);
             }
         }
     }
-    // bump version
-    
-} else if (result._ > 0) {
-    // sync version in packages
-} else {
-    // sync version in all
+}
+
+async function updateVersionAt(itemPath) {
+  const directory = path.dirname(itemPath);
+  console.info(blue(`Updating Version at ${directory} to ${version}`));
+  const packageconfig = JSON.parse(await Deno.readTextFile(itemPath));
+  packageconfig.version = version;
+  Deno.writeTextFileSync(itemPath, JSON.stringify(packageconfig));
+
+  const genVersionTsFile = path.join(directory, "gen", "version.ts");
+  Deno.mkdirSync(path.dirname(genVersionTsFile), { recursive: true });
+  Deno.createSync(genVersionTsFile);
+  Deno.writeTextFileSync(genVersionTsFile, `export default "${version}"`);
+  console.info(green(`Version Updated`));
 }
