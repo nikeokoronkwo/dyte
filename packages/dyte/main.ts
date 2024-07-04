@@ -2,7 +2,6 @@
  * **Dyte**
  * @file The Dyte Entrypoint
  * @copyright The Dyte Authors
- * 
  *
  * The Dyte entrypoint file
  *

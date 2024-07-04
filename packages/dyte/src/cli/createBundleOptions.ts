@@ -13,35 +13,39 @@ export function createBundleOptions(
 
 function createDevBundleOptions(
   config: DyteConfig,
-  denoConfig?: DenoConfig
+  denoConfig?: DenoConfig,
 ): BundleOptions {
   return {
     mode: config.mode ?? "development",
     denoOptions: config.denoOptions ?? {
       compilerOptions: denoConfig?.compilerOptions,
-      importMap: denoConfig?.imports ? {
-        baseUrl: config.root,
-        imports: denoConfig?.imports,
-        scopes: denoConfig.scopes,
-      } : denoConfig?.importMap
-    }
+      importMap: denoConfig?.imports
+        ? {
+          baseUrl: config.root,
+          imports: denoConfig?.imports,
+          scopes: denoConfig.scopes,
+        }
+        : denoConfig?.importMap,
+    },
   };
 }
 
 function createProdBundleOptions(
   config: DyteConfig,
-  denoConfig?: DenoConfig
+  denoConfig?: DenoConfig,
 ): BundleOptions {
   return {
     mode: config.mode ?? "production",
     denoOptions: {
       minify: true,
       compilerOptions: denoConfig?.compilerOptions,
-      importMap: denoConfig?.imports ? {
-        baseUrl: config.root,
-        imports: denoConfig?.imports,
-        scopes: denoConfig.scopes,
-      } : denoConfig?.importMap
-    }
+      importMap: denoConfig?.imports
+        ? {
+          baseUrl: config.root,
+          imports: denoConfig?.imports,
+          scopes: denoConfig.scopes,
+        }
+        : denoConfig?.importMap,
+    },
   };
 }

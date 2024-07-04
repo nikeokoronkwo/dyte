@@ -1,8 +1,12 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": [
-            "deno.window", "dom", "dom.iterable", "dom.asynciterable", "deno.ns"
-        ]
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "deno.window",
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns"
+    ]
+  }
 }

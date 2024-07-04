@@ -25,7 +25,10 @@ export async function bundle(options: BundleOptions) {
  * The Dev Bundler/Transformer used to bundle code for a development server for Quetzal
  * @param options - The options used to configure the Quetzal Bundler
  */
-async function devBundle(entry: string, options: BundleOptions): Promise<string> {
+async function devBundle(
+  entry: string,
+  options: BundleOptions,
+): Promise<string> {
   const { code } = await denoBundle(
     await Deno.readTextFile(entry),
     options.denoOptions,
@@ -38,7 +41,7 @@ async function devBundle(entry: string, options: BundleOptions): Promise<string>
 // IF file is included in transpile map return file
 // ELSE transpile file and add map to cache
 // continue cycle
-/** 
+/**
  * @todo Implement Transpile Map Program
  */
 export async function devTranspile(

@@ -7,73 +7,77 @@ import { generateConfig } from "../src/config/config.ts";
 import { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
-import { serve } from "../src/server.ts"
+import { serve } from "../src/server.ts";
 
-import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts"
+import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
 import { join } from "https://deno.land/std@0.224.0/path/join.ts";
 
 const mode = new EnumType(["development", "production"]);
 
 export const run = new Command()
-.type("dyte-mode", mode)
-.option('-m --mode <mode:dyte-mode>', "The mode to build for")
-.option('--launch', "Launch Web Browser once server is built.")
-.option('--tls-cert <cert>', "The file location of a TLS Certificate to use HTTPS", {
-  depends: ["tls-key"],
-  hidden: true // experimental and has not been implemented
-})
-.option('--tls-key <key>', "The file location of a TLS Key to use HTTPS", {
-  depends: ["tls-cert"],
-  hidden: true // experimental and has not been implemented
-})
+  .type("dyte-mode", mode)
+  .option("-m --mode <mode:dyte-mode>", "The mode to build for")
+  .option("--launch", "Launch Web Browser once server is built.")
+  .option(
+    "--tls-cert <cert>",
+    "The file location of a TLS Certificate to use HTTPS",
+    {
+      depends: ["tls-key"],
+      hidden: true, // experimental and has not been implemented
+    },
+  )
+  .option("--tls-key <key>", "The file location of a TLS Key to use HTTPS", {
+    depends: ["tls-cert"],
+    hidden: true, // experimental and has not been implemented
+  })
   .arguments("[directory]")
   .action((options, args) => {
     runCommand(options, args);
   });
 
-  async function runCommand(options: RunOptions, args?: string) {
-    // get cwd
-    const cwd = join(Deno.cwd(), args ?? ".");
-  
-    // load dyte config
-    let appConfig;
-    let devServer;
-  
-    // watch config for changes
-    const config = await watchConfig({
-      name: "dyte",
-      defaultConfig: generateConfig("development", args ?? "."),
-      cwd,
-      onWatch: (event) => {
-        console.log("[watcher]", event.type, event.path);
-      },
-      acceptHMR({ oldConfig, newConfig, getDiff }) {
-        const diff = getDiff();
-        if (diff.length === 0) {
-          console.log("No config changed detected!");
-          return true; // No changes!
-        }
-      },
-      onUpdate({ oldConfig, newConfig, getDiff }) {
-        const diff = getDiff();
-        appConfig = newConfig.config ?? generateConfig("development", args ?? ".");
-        console.log("Config updated:\n" + diff.map((i) => i.toJSON()).join("\n"));
-  
-        devServer.close(function () {
-          console.log("Reloading Server....");
-        });
-  
-        devServer = createDevServer(cwd, appConfig);
-      },
-    });
-  
-    if (config.config) appConfig = config.config;
-    else appConfig = generateConfig("development", args ?? ".");
-  
-    // get entry file
-    devServer = createDevServer(cwd, appConfig);
-  }
-  
+async function runCommand(options: RunOptions, args?: string) {
+  // get cwd
+  const cwd = join(Deno.cwd(), args ?? ".");
+
+  // load dyte config
+  let appConfig;
+  let devServer;
+
+  // watch config for changes
+  const config = await watchConfig({
+    name: "dyte",
+    defaultConfig: generateConfig("development", args ?? "."),
+    cwd,
+    onWatch: (event) => {
+      console.log("[watcher]", event.type, event.path);
+    },
+    acceptHMR({ oldConfig, newConfig, getDiff }) {
+      const diff = getDiff();
+      if (diff.length === 0) {
+        console.log("No config changed detected!");
+        return true; // No changes!
+      }
+    },
+    onUpdate({ oldConfig, newConfig, getDiff }) {
+      const diff = getDiff();
+      appConfig = newConfig.config ??
+        generateConfig("development", args ?? ".");
+      console.log("Config updated:\n" + diff.map((i) => i.toJSON()).join("\n"));
+
+      devServer.close(function () {
+        console.log("Reloading Server....");
+      });
+
+      devServer = createDevServer(cwd, appConfig);
+    },
+  });
+
+  if (config.config) appConfig = config.config;
+  else appConfig = generateConfig("development", args ?? ".");
+
+  // get entry file
+  devServer = createDevServer(cwd, appConfig);
+}
 
 function createDevServer(cwd: string, appConfig: DyteConfig) {
   // get deno config from deno.json file

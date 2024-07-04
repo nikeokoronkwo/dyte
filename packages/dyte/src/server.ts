@@ -2,26 +2,33 @@ import { join } from "https://deno.land/std@0.224.0/path/join.ts";
 import { BundleOptions } from "./options/BundleOptions.ts";
 import { ServerOptions } from "./options/ServeOptions.ts";
 import { devTranspile } from "./bundle.ts";
-import { Resolver } from "./resolver.ts"
+import { Resolver } from "./resolver.ts";
 import { toFileUrl } from "https://deno.land/std@0.224.0/path/to_file_url.ts";
 
 export type DyteServer = {
-    listen: (port: number, onListen?: () => void, onAbort?: () => void) => {
-      close: (onEnd: () => void) => void;
-    };
+  listen: (port: number, onListen?: () => void, onAbort?: () => void) => {
+    close: (onEnd: () => void) => void;
+  };
 };
-  
 
-export function serve(serverOptions: ServerOptions, bundleOptions?: BundleOptions): DyteServer {
-    let dependencyMap = new Map<string, string>([]);
-/** @type {(req: Request) => Promise<Response>} */
-const handler: (req: Request) => Promise<Response> = async (req): Promise<Response> => {
+export function serve(
+  serverOptions: ServerOptions,
+  bundleOptions?: BundleOptions,
+): DyteServer {
+  let dependencyMap = new Map<string, string>([]);
+  /** @type {(req: Request) => Promise<Response>} */
+  const handler: (req: Request) => Promise<Response> = async (
+    req,
+  ): Promise<Response> => {
     // get pathname
     const url = new URL(req.url);
     const pathname = url.pathname;
 
     /** Get file path @type {string} */
-    const filePath: string = join(serverOptions.dir, pathname.startsWith('/') ? pathname.replace('/', '') : pathname);
+    const filePath: string = join(
+      serverOptions.dir,
+      pathname.startsWith("/") ? pathname.replace("/", "") : pathname,
+    );
 
     // configure bundle serverOptions
     bundleOptions = bundleOptions
@@ -34,7 +41,7 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
       : {
         mode: "development",
       };
-    
+
     try {
       if (pathname === "/") {
         // return index
@@ -46,28 +53,43 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
             },
           },
         );
-      } else if (!([".js", ".ts", ".jsx", ".tsx"].every((item) => !pathname.endsWith(item)))) {
+      } else if (
+        !([".js", ".ts", ".jsx", ".tsx"].every((item) =>
+          !pathname.endsWith(item)
+        ))
+      ) {
         const fileurl = toFileUrl(Deno.realPathSync(filePath)).toString();
         if (dependencyMap.get(fileurl) || dependencyMap.get(filePath)) {
-            const code = Resolver.resolve(dependencyMap.get(fileurl) ?? dependencyMap.get(filePath) ?? "", dependencyMap);
-            return new Response(code, {
-              headers: {
-                "content-type": "application/javascript",
-              },
-            });
+          const code = Resolver.resolve(
+            dependencyMap.get(fileurl) ?? dependencyMap.get(filePath) ?? "",
+            dependencyMap,
+          );
+          return new Response(code, {
+            headers: {
+              "content-type": "application/javascript",
+            },
+          });
         }
         // transpile file
         const map = await devTranspile(filePath, bundleOptions);
         dependencyMap = new Map([...dependencyMap, ...map]);
-        const code = Resolver.resolve(dependencyMap.get(fileurl) ?? dependencyMap.get(filePath) ?? "", dependencyMap);
+        const code = Resolver.resolve(
+          dependencyMap.get(fileurl) ?? dependencyMap.get(filePath) ?? "",
+          dependencyMap,
+        );
         return new Response(code, {
           headers: {
             "content-type": "application/javascript",
           },
         });
-        
       } else {
-        const file = serverOptions.publicDir && pathname.startsWith(serverOptions.publicRoot) ? join(serverOptions.publicDir, pathname.replace(serverOptions.publicRoot, '')) : pathname.replace('/', '');
+        const file = serverOptions.publicDir &&
+            pathname.startsWith(serverOptions.publicRoot)
+          ? join(
+            serverOptions.publicDir,
+            pathname.replace(serverOptions.publicRoot, ""),
+          )
+          : pathname.replace("/", "");
         return new Response(Deno.readTextFileSync(file));
       }
     } catch (error) {
@@ -100,7 +122,7 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
         },
       };
     },
-}
+  };
 }
 
 /**
@@ -112,35 +134,35 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
  * @returns {Error}
  */
 function createError(
-    options: { status?: number; message?: string; name?: string; },
-  ): Error {
-    return new ServerError(
-      options.status ?? 500,
-      options.message ?? "An unknown error has occured",
-      options.name ?? "Unknown Error",
-    );
-  }
-  
+  options: { status?: number; message?: string; name?: string },
+): Error {
+  return new ServerError(
+    options.status ?? 500,
+    options.message ?? "An unknown error has occured",
+    options.name ?? "Unknown Error",
+  );
+}
+
+/**
+ * Server Error class
+ */
+class ServerError extends Error {
+  /** @type {number} */
+  status: number;
+
   /**
-   * Server Error class
+   * Constructor for a server error
+   * @param {number} status
+   * @param {string} message
+   * @param {string} [name]
    */
-  class ServerError extends Error {
-    /** @type {number} */
-    status: number;
-  
-    /**
-     * Constructor for a server error
-     * @param {number} status
-     * @param {string} message
-     * @param {string} [name]
-     */
-    constructor(
-      status: number,
-      message: string,
-      name: string,
-    ) {
-      super(message);
-      this.status = status;
-      if (name) this.name = name;
-    }
+  constructor(
+    status: number,
+    message: string,
+    name: string,
+  ) {
+    super(message);
+    this.status = status;
+    if (name) this.name = name;
   }
+}

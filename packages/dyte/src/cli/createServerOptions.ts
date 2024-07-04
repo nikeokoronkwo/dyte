@@ -9,7 +9,9 @@ export function createServerOptions(
     dir: cwd,
     port: config.server?.port?.toString() ?? "8000",
     host: config.server?.host ?? "localhost",
-    publicDir: config.publicDir !== false ? (config.publicDir ?? "public") : undefined,
-    publicRoot: config.publicRoot ?? '/'
+    publicDir: config.publicDir !== false
+      ? (config.publicDir ?? "public")
+      : undefined,
+    publicRoot: config.publicRoot ?? "/",
   };
 }

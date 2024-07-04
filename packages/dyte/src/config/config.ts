@@ -21,15 +21,15 @@ export function generateConfig(
 ): DyteConfig {
   return {
     root: cwd,
-    base: '/',
+    base: "/",
     mode,
-    publicDir: 'public',
+    publicDir: "public",
     server: {
       port: 8000,
       host: "localhost",
     },
     dev: {
-      bundleDeps: true
-    }
+      bundleDeps: true,
+    },
   };
 }

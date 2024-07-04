@@ -2,7 +2,7 @@
 import { BundleOptions as DenoBundleOptions } from "https://deno.land/x/emit@0.38.2/mod.ts";
 import type { UserInputConfig } from "npm:c12";
 
-export type DyteMode = 'development' | 'production';
+export type DyteMode = "development" | "production";
 
 // TODO: Add support for https
 interface DyteServerConfig {
@@ -47,16 +47,16 @@ export interface DyteBaseConfig {
   /** The base url path to use when serving the application. @default '/' */
   base?: string;
 
-  /** 
+  /**
    * Directory to serve plain static assets.
-   * If false, then no files will be served at the public directory 
+   * If false, then no files will be served at the public directory
    */
   publicDir?: string | false;
 
   /**
    * Where to serve plain static assets at the root directory of the project url.
    * Defaults to undefined to serve at project root.
-   * 
+   *
    * If {@link DyteBaseConfig#publicDir} is set to false, then this option is ignored.
    */
   publicRoot?: string;
@@ -80,7 +80,7 @@ export interface DyteBaseConfig {
 
   /**
    * Config options for NPM packages used in the given project.
-   * 
+   *
    * NPM packages are denoted with the `npm:` specifier (`import React from "npm:react";`)
    */
   npm?: DyteNPMConfig;
@@ -89,13 +89,13 @@ export interface DyteBaseConfig {
     /**
      * Whether to bundle external dependencies or import them as-is.
      * Defaults to true, meaning url dependencies are bundled.
-	 * 
-	 * @default true
+     *
+     * @default true
      */
     bundleDeps?: boolean;
 
-    /** 
-     * Whether to initiate a full reload upon receiving changes 
+    /**
+     * Whether to initiate a full reload upon receiving changes
      * @default false
      */
     fullReload?: boolean;
@@ -106,9 +106,9 @@ export interface DyteBaseConfig {
      * The output directory for the build files
      */
     outdir?: string;
-  },
+  };
 
-  denoOptions?: DenoBundleOptions
+  denoOptions?: DenoBundleOptions;
 }
 
 /**

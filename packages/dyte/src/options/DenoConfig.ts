@@ -42,7 +42,7 @@ export class DenoFile implements DenoConfig {
       npmRegistry: data.npmRegistry,
       imports: data.imports,
       importMap: data.importMap,
-      scopes: data.scopes
+      scopes: data.scopes,
     });
   }
 }
