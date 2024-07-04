@@ -9,24 +9,23 @@ export async function getConfiguration(
 ) {
   const { config, configFile } = await loadConfig<DyteConfig>({
     name: "dyte",
-    defaultConfig: generateConfig(options, args, cwd),
+    defaultConfig: generateConfig(options, args),
   });
   if (config) return config;
-  else return generateConfig(options, args, cwd);
+  else return generateConfig(options, args);
 }
 
 export function generateConfig(
   mode: DyteMode,
-  args: string,
   cwd: string,
 ): DyteConfig {
   return {
-    root: join(cwd, args),
+    root: cwd,
     base: '/',
     mode,
     publicDir: 'public',
     server: {
-      port: 8080,
+      port: 8000,
       host: "localhost",
     },
     dev: {

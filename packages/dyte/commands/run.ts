@@ -10,6 +10,7 @@ import { createServerOptions } from "../src/cli/createServerOptions.ts";
 import { serve } from "../src/server.ts"
 
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts"
+import { join } from "https://deno.land/std@0.224.0/path/join.ts";
 
 const mode = new EnumType(["development", "production"]);
 
@@ -32,7 +33,7 @@ export const run = new Command()
 
   async function runCommand(options: RunOptions, args?: string) {
     // get cwd
-    const cwd = Deno.cwd();
+    const cwd = join(Deno.cwd(), args ?? ".");
   
     // load dyte config
     let appConfig;
@@ -41,7 +42,7 @@ export const run = new Command()
     // watch config for changes
     const config = await watchConfig({
       name: "dyte",
-      defaultConfig: generateConfig("development", args ?? ".", cwd),
+      defaultConfig: generateConfig("development", args ?? "."),
       cwd,
       onWatch: (event) => {
         console.log("[watcher]", event.type, event.path);
@@ -55,7 +56,7 @@ export const run = new Command()
       },
       onUpdate({ oldConfig, newConfig, getDiff }) {
         const diff = getDiff();
-        appConfig = newConfig.config ?? generateConfig("development", args ?? ".", cwd);
+        appConfig = newConfig.config ?? generateConfig("development", args ?? ".");
         console.log("Config updated:\n" + diff.map((i) => i.toJSON()).join("\n"));
   
         devServer.close(function () {
@@ -67,7 +68,7 @@ export const run = new Command()
     });
   
     if (config.config) appConfig = config.config;
-    else appConfig = generateConfig("development", args ?? ".", cwd);
+    else appConfig = generateConfig("development", args ?? ".");
   
     // get entry file
     devServer = createDevServer(cwd, appConfig);
@@ -76,7 +77,7 @@ export const run = new Command()
 
 function createDevServer(cwd: string, appConfig: DyteConfig) {
   // get deno config from deno.json file
-  const deno = DenoFile.parse(appConfig.root ?? cwd);
+  const deno = DenoFile.parse(join(appConfig.root ?? cwd, "deno.json"));
 
   // create configurations
   const bundleOptions = createBundleOptions(
@@ -85,11 +86,11 @@ function createDevServer(cwd: string, appConfig: DyteConfig) {
     true,
   );
 
-  const serveOptions = createServerOptions(appConfig, cwd);
+  const serveOptions = createServerOptions(appConfig, appConfig.root ?? cwd);
 
   // serve project
   const server = serve(serveOptions, bundleOptions);
-  return server.listen(serveOptions.port, () => {
+  return server.listen(parseInt(serveOptions.port), () => {
     console.log(`App running on http://localhost:${serveOptions.port}`);
   });
 }

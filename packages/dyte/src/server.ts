@@ -46,11 +46,8 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
             },
           },
         );
-      } else if ([".js", ".ts", ".jsx", ".tsx"].every((item) => !pathname.endsWith(item))) {
-        const file = serverOptions.publicDir && pathname.startsWith(serverOptions.publicRoot) ? join(serverOptions.publicDir, pathname.replace(serverOptions.publicRoot, '')) : pathname.replace('/', '');
-        return new Response(Deno.readTextFileSync(file));
-      } else {
-        const fileurl = toFileUrl(filePath).toString();
+      } else if (!([".js", ".ts", ".jsx", ".tsx"].every((item) => !pathname.endsWith(item)))) {
+        const fileurl = toFileUrl(Deno.realPathSync(filePath)).toString();
         if (dependencyMap.get(fileurl) || dependencyMap.get(filePath)) {
             const code = Resolver.resolve(dependencyMap.get(fileurl) ?? dependencyMap.get(filePath) ?? "", dependencyMap);
             return new Response(code, {
@@ -69,6 +66,9 @@ const handler: (req: Request) => Promise<Response> = async (req): Promise<Respon
           },
         });
         
+      } else {
+        const file = serverOptions.publicDir && pathname.startsWith(serverOptions.publicRoot) ? join(serverOptions.publicDir, pathname.replace(serverOptions.publicRoot, '')) : pathname.replace('/', '');
+        return new Response(Deno.readTextFileSync(file));
       }
     } catch (error) {
       // console error

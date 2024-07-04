@@ -1,8 +1,13 @@
 {
+        "compilerOptions": {
+            "target": "esnext",
+            "lib": [
+                "deno.window", "dom", "dom.iterable", "dom.asynciterable", "deno.ns"
+            ]
+        },
     "tasks": {
-        "dev": "deno run -A packages/dyte/main.ts"
-    },
-    "imports": {
-        "dyte": "../packages/dyte"
+        "dev": "deno run -A --watch packages/dyte/main.ts",
+        "test": "deno test .",
+        "format": "deno fmt ."
     }
 }
