@@ -1,4 +1,8 @@
 {
+  "workspace": [
+    "packages/dyte",
+    "packages/create-dyte"
+  ],
   "version": "0.0.1-pre",
   "compilerOptions": {
     "lib": [

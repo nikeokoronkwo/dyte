@@ -17,4 +17,4 @@ Dyte is a drop in frontend dev server that supports Deno projects and modules
 
 ## Goals
 
-Check the [goals doc]() for goals for this tool.
+Check the [goals doc](./TODO.md) for goals for this tool.
