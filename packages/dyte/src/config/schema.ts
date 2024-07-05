@@ -1,6 +1,5 @@
 /** The Dyte Configuration */
-import { BundleOptions as DenoBundleOptions } from "https://deno.land/x/emit@0.38.2/mod.ts";
-import type { UserInputConfig } from "npm:c12";
+import { BundleOptions as DenoBundleOptions, UserInputConfig } from "../../deps.ts";
 
 export type DyteMode = "development" | "production";
 

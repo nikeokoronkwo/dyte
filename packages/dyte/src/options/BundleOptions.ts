@@ -1,5 +1,5 @@
 import { DyteMode } from "../config/schema.ts";
-import { BundleOptions as DenoBundleOptions } from "https://deno.land/x/emit/mod.ts";
+import { BundleOptions as DenoBundleOptions } from "../../deps.ts";
 
 /**
  * The bundle options used to configure Deno's native bundler

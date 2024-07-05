@@ -1,6 +1,5 @@
-import { loadConfig } from "npm:c12";
+import { loadConfig, join } from "../../deps.ts";
 import type { DyteConfig, DyteMode } from "./schema.ts";
-import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 
 export async function getConfiguration(
   options: any,

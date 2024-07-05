@@ -1,5 +1,4 @@
-import { existsSync } from "https://deno.land/std@0.224.0/fs/exists.ts";
-import { SEPARATOR } from "https://deno.land/std@0.224.0/path/constants.ts";
+import { existsSync, SEPARATOR } from "../../deps.ts";
 import { DyteConfig } from "../config/schema.ts";
 
 export function getEntryFile(

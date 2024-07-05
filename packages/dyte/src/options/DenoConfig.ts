@@ -1,5 +1,4 @@
-import { normalize } from "https://deno.land/std@0.224.0/path/mod.ts";
-import { CompilerOptions } from "https://deno.land/x/emit@0.38.2/mod.ts";
+import { normalize, CompilerOptions } from "../../deps.ts";
 
 type DenoScope = Record<string, Record<string, string>>;
 type DenoImport = Record<string, string>;

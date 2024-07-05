@@ -1,14 +1,15 @@
-import { join } from "https://deno.land/std@0.224.0/path/join.ts";
+import { join, toFileUrl } from "../deps.ts";
 import { BundleOptions } from "./options/BundleOptions.ts";
 import { ServerOptions } from "./options/ServeOptions.ts";
 import { devTranspile } from "./bundle.ts";
 import { Resolver } from "./resolver.ts";
-import { toFileUrl } from "https://deno.land/std@0.224.0/path/to_file_url.ts";
+
+export type DyteActiveServer = {
+  close: (onEnd: () => void) => void;
+};
 
 export type DyteServer = {
-  listen: (port: number, onListen?: () => void, onAbort?: () => void) => {
-    close: (onEnd: () => void) => void;
-  };
+  listen: (port: number, onListen?: () => void, onAbort?: () => void) => DyteActiveServer;
 };
 
 export function serve(

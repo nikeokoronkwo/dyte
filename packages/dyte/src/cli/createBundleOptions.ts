@@ -7,7 +7,7 @@ export function createBundleOptions(
   denoConfig?: DenoConfig,
   dev: boolean = false,
 ): BundleOptions {
-  if (dev) return createDevBundleOptions(config, denoConfig);
+  if (dev || config.mode == "development") return createDevBundleOptions(config, denoConfig);
   else return createProdBundleOptions(config, denoConfig);
 }
 
