@@ -1,20 +1,17 @@
-import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/command.ts";
-import { EnumType } from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/types/enum.ts";
+import { Command, EnumType, watchConfig, join } from "../deps.ts";
 import { RunOptions } from "./run/options.ts";
 
-import { watchConfig } from "npm:c12";
 import { generateConfig } from "../src/config/config.ts";
 import { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
-import { serve } from "../src/server.ts";
+import { DyteServer, DyteActiveServer, serve } from "../src/server.ts";
 
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
-import { join } from "https://deno.land/std@0.224.0/path/join.ts";
 
 const mode = new EnumType(["development", "production"]);
 
-export const run = new Command()
+export default new Command()
   .type("dyte-mode", mode)
   .option("-m --mode <mode:dyte-mode>", "The mode to build for")
   .option("--launch", "Launch Web Browser once server is built.")
@@ -41,7 +38,7 @@ async function runCommand(options: RunOptions, args?: string) {
 
   // load dyte config
   let appConfig;
-  let devServer;
+  let devServer: DyteActiveServer;
 
   // watch config for changes
   const config = await watchConfig({
@@ -68,6 +65,9 @@ async function runCommand(options: RunOptions, args?: string) {
         console.log("Reloading Server....");
       });
 
+      const a = setTimeout(() => { console.log("Server cooldown elapsed.")}, 800);
+      clearInterval(a);
+
       devServer = createDevServer(cwd, appConfig);
     },
   });
@@ -79,6 +79,7 @@ async function runCommand(options: RunOptions, args?: string) {
   devServer = createDevServer(cwd, appConfig);
 }
 
+/** @todo Extend implementation of {@link DyteServer} */
 function createDevServer(cwd: string, appConfig: DyteConfig) {
   // get deno config from deno.json file
   const deno = DenoFile.parse(join(appConfig.root ?? cwd, "deno.json"));
