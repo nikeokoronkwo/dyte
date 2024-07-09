@@ -11,13 +11,12 @@
 - [ ] Plugin System using the module resolver:
     - [ ] Rust API compiled to WASM to interact with the module resolver
     - [ ] JS API interacting with the WASM built resolver
+- [ ] PostCSS Support for PostCSS, TailwindCSS, AutoPrefixer, as well as Rust CSS Api (like LightningCSS)
 
 
 ## Current
-
-- Support for other runtimes
+- Vite Plugin Support/Interoperability
 
 ## Future
-
 - Support for popular frameworks
-- Vite Plugin Support/Interoperability
+- Support for other runtimes
