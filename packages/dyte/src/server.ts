@@ -9,7 +9,11 @@ export type DyteActiveServer = {
 };
 
 export type DyteServer = {
-  listen: (port: number, onListen?: () => void, onAbort?: () => void) => DyteActiveServer;
+  listen: (
+    port: number,
+    onListen?: () => void,
+    onAbort?: () => void,
+  ) => DyteActiveServer;
 };
 
 export function serve(

@@ -1,4 +1,4 @@
-import { normalize, CompilerOptions } from "../../deps.ts";
+import { CompilerOptions, normalize } from "../../deps.ts";
 
 type DenoScope = Record<string, Record<string, string>>;
 type DenoImport = Record<string, string>;

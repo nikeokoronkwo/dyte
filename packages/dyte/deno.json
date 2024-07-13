@@ -1,10 +1,10 @@
-{ 
-    "name": "@dyte/dyte", 
-    "exports": { 
-        ".": "./mod.ts" 
-    }, 
-    "version": "0.0.1-pre",
-    "test": {
-        "exclude": ["./deps_test.ts"]
-    }
+{
+  "name": "@dyte/dyte",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "version": "0.0.1-pre",
+  "test": {
+    "exclude": ["./deps_test.ts"]
+  }
 }

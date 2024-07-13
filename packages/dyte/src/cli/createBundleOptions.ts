@@ -7,8 +7,9 @@ export function createBundleOptions(
   denoConfig?: DenoConfig,
   dev: boolean = false,
 ): BundleOptions {
-  if (dev || config.mode == "development") return createDevBundleOptions(config, denoConfig);
-  else return createProdBundleOptions(config, denoConfig);
+  if (dev || config.mode == "development") {
+    return createDevBundleOptions(config, denoConfig);
+  } else return createProdBundleOptions(config, denoConfig);
 }
 
 function createDevBundleOptions(

@@ -1,11 +1,11 @@
-import { Command, EnumType, watchConfig, join } from "../deps.ts";
+import { Command, EnumType, join, watchConfig } from "../deps.ts";
 import { RunOptions } from "./run/options.ts";
 
 import { generateConfig } from "../src/config/config.ts";
 import { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
-import { DyteServer, DyteActiveServer, serve } from "../src/server.ts";
+import { DyteActiveServer, DyteServer, serve } from "../src/server.ts";
 
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
 
@@ -65,7 +65,9 @@ async function runCommand(options: RunOptions, args?: string) {
         console.log("Reloading Server....");
       });
 
-      const a = setTimeout(() => { console.log("Server cooldown elapsed.")}, 800);
+      const a = setTimeout(() => {
+        console.log("Server cooldown elapsed.");
+      }, 800);
       clearInterval(a);
 
       devServer = createDevServer(cwd, appConfig);

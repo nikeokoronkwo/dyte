@@ -1,12 +1,9 @@
-import {
-  bundle as denoBundle,
-  transpile as denoTranspile,
-} from "../deps.ts";
+import { bundle as denoBundle, transpile as denoTranspile } from "../deps.ts";
 
 import { BundleOptions } from "./options/BundleOptions.ts";
 
 /**
- * Bundles the code given the file entry 
+ * Bundles the code given the file entry
  */
 export async function bundle(entry: string, options: BundleOptions) {
   if (options.mode === "development") {
@@ -22,8 +19,8 @@ export async function bundle(entry: string, options: BundleOptions) {
  * @param options - The options used to configure the Quetzal Bundler
  */
 async function devBundle(entry: string, options: BundleOptions) {
-	const { code } = await denoBundle(entry, options.denoOptions);
-	return code;
+  const { code } = await denoBundle(entry, options.denoOptions);
+  return code;
 }
 
 /**
@@ -32,10 +29,9 @@ async function devBundle(entry: string, options: BundleOptions) {
  * NOTE: The bundler uses Deno for bundling code by default, which does not support code splitting at the moment. You may need to use a code-splitting tool for such purpose.
  */
 async function prodBundle(entry: string, options: BundleOptions) {
-	const { code } = await denoBundle(entry, options.denoOptions);
-	return code;
+  const { code } = await denoBundle(entry, options.denoOptions);
+  return code;
 }
-
 
 /**
  * The dev transpiler, used in transpiling deno files and updating the dependency graph for the Dyte Server
@@ -46,5 +42,3 @@ export async function devTranspile(
 ): Promise<Map<string, string>> {
   return await denoTranspile(entry, options?.denoOptions);
 }
-
-

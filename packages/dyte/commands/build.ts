@@ -1,5 +1,5 @@
 import { Command, join } from "../deps.ts";
-import { getConfiguration, generateConfig } from "../src/config/config.ts";
+import { generateConfig, getConfiguration } from "../src/config/config.ts";
 import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 
@@ -29,5 +29,5 @@ async function buildCommand(options: any, args?: string) {
     true,
   );
 
-  const output = bundle();
+  // const output = bundle();
 }

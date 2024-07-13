@@ -1,4 +1,4 @@
-import { loadConfig, join } from "../../deps.ts";
+import { join, loadConfig } from "../../deps.ts";
 import type { DyteConfig, DyteMode } from "./schema.ts";
 
 export async function getConfiguration(
