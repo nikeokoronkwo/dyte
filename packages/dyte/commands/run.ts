@@ -1,4 +1,4 @@
-import { Command, EnumType, join, watchConfig } from "../deps.ts";
+import { Command, EnumType, watchConfig, join, delay } from "../deps.ts";
 import { RunOptions } from "./run/options.ts";
 
 import { generateConfig } from "../src/config/config.ts";
@@ -65,12 +65,9 @@ async function runCommand(options: RunOptions, args?: string) {
         console.log("Reloading Server....");
       });
 
-      const a = setTimeout(() => {
-        console.log("Server cooldown elapsed.");
-      }, 800);
-      clearInterval(a);
-
-      devServer = createDevServer(cwd, appConfig);
+      delay(800).then(() => {
+        devServer = createDevServer(cwd, appConfig);
+      });
     },
   });
 
