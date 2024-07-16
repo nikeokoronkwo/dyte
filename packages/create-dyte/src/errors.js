@@ -1,1 +1,1 @@
-export class ExistsError extends Error { }
+export class ExistsError extends Error {}

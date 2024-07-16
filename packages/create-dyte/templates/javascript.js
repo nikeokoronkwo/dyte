@@ -1,21 +1,26 @@
 import { Folder } from "../src/file.js";
-import { DenoConfig } from "jsr:@dyte/deno-config"
 
-/** @type {DenoConfig} */
+/** @type {import("jsr:@dyte/deno-config").DenoConfig} */
 const denoConfig = {
-    tasks: {
-        dev: "dyte run",
-        build: "dyte build"
-    },
-    imports: {
-        dyte: "jsr:@dyte/dyte"
-    }
-}
+  tasks: {
+    dev: "dyte run",
+    build: "dyte build",
+  },
+  imports: {
+    dyte: "jsr:@dyte/dyte",
+  },
+};
 
-export default (name) => new Folder(name, [
+export default (name) =>
+  new Folder(name, [
     new File("deno.json", JSON.stringify(denoConfig)),
-    new File("dyte.config.js", "// add configuration here \nexport default {};"),
-    new File("index.html", `<!DOCTYPE html>
+    new File(
+      "dyte.config.js",
+      "// add configuration here \nexport default {};",
+    ),
+    new File(
+      "index.html",
+      `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,14 +31,18 @@ export default (name) => new Folder(name, [
 <body>
     <div id="app"></div>
 </body>
-</html>`)
-], [
+</html>`,
+    ),
+  ], [
     new Folder("src", [
-        new File("main.js", `const element = document.createElement("div");
+      new File(
+        "main.js",
+        `const element = document.createElement("div");
 element.innerHTML = \`<div>
     A Simple Web App made with Dyte!
 </div>\`;
 
-document.querySelector("#app").append(element)`)
-    ])
-]);
+document.querySelector("#app").append(element)`,
+      ),
+    ]),
+  ]);
