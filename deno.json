@@ -17,6 +17,7 @@
     "dev": "deno run -A --watch packages/dyte/main.ts",
     "test": "deno test .",
     "format": "deno fmt .",
-    "version": "deno run --allow-read --allow-write scripts/version.js"
+    "version": "deno run --allow-read --allow-write scripts/version.js",
+    "create": "deno run -A packages/create-dyte/main.js"
   }
 }
