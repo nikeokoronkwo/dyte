@@ -5,9 +5,11 @@ export { join } from "jsr:@std/path/join";
 export { delay } from "jsr:@std/async/delay";
 export { toFileUrl } from "jsr:@std/path/to-file-url";
 export { SEPARATOR } from "jsr:@std/path/constants";
-export { existsSync } from "jsr:@std/fs/exists";
+export { existsSync, exists } from "jsr:@std/fs/exists";
 export { normalize } from "jsr:@std/path/normalize";
 export { bundle, transpile } from "jsr:@deno/emit";
+export { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
+export { encodeHex } from "jsr:@std/encoding/hex"
 export type {
   BundleOptions,
   CompilerOptions,

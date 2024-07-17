@@ -78,7 +78,9 @@ async function runCommand(options: RunOptions, args?: string) {
   devServer = createDevServer(cwd, appConfig);
 }
 
-/** @todo Extend implementation of {@link DyteServer} */
+/** 
+ * @todo Extend implementation of {@link DyteServer} 
+ */
 function createDevServer(cwd: string, appConfig: DyteConfig) {
   // get deno config from deno.json file
   const deno = DenoFile.parse(join(appConfig.root ?? cwd, "deno.json"));
