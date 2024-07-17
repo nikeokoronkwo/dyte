@@ -30,5 +30,8 @@ export function generateConfig(
     dev: {
       bundleDeps: true,
     },
+    build: {
+      outdir: "build"
+    }
   };
 }

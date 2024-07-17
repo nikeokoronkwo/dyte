@@ -1,13 +1,13 @@
 import { Command, EnumType, watchConfig, join, delay } from "../deps.ts";
-import { RunOptions } from "./run/options.ts";
+import type { RunOptions } from "./run/options.ts";
 
 import { generateConfig } from "../src/config/config.ts";
-import { DyteConfig } from "../src/config/schema.ts";
+import type { DyteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
-import { DyteActiveServer, DyteServer, serve } from "../src/server.ts";
+import { type DyteActiveServer, serve } from "../src/server.ts";
 
-import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
+import { DenoFile } from "../src/options/DenoConfig.ts";
 
 const mode = new EnumType(["development", "production"]);
 
@@ -37,7 +37,7 @@ async function runCommand(options: RunOptions, args?: string) {
   const cwd = join(Deno.cwd(), args ?? ".");
 
   // load dyte config
-  let appConfig;
+  let appConfig: DyteConfig;
   let devServer: DyteActiveServer;
 
   // watch config for changes
@@ -59,7 +59,7 @@ async function runCommand(options: RunOptions, args?: string) {
       const diff = getDiff();
       appConfig = newConfig.config ??
         generateConfig("development", args ?? ".");
-      console.log("Config updated:\n" + diff.map((i) => i.toJSON()).join("\n"));
+      console.log("Config updated:\n" + diff.map(i => i.toJSON()).join("\n"));
 
       devServer.close(function () {
         console.log("Reloading Server....");
