@@ -1,4 +1,4 @@
-import { Command, EnumType, watchConfig, join, delay } from "../deps.ts";
+import { Command, EnumType, watchConfig, join, delay, exists } from "../deps.ts";
 import type { RunOptions } from "./run/options.ts";
 
 import { generateConfig } from "../src/config/config.ts";
@@ -8,6 +8,7 @@ import { createServerOptions } from "../src/cli/createServerOptions.ts";
 import { type DyteActiveServer, serve } from "../src/server.ts";
 
 import { DenoFile } from "../src/options/DenoConfig.ts";
+import { Logger } from "../src/logger.ts";
 
 const mode = new EnumType(["development", "production"]);
 
@@ -35,6 +36,12 @@ export default new Command()
 async function runCommand(options: RunOptions, args?: string) {
   // get cwd
   const cwd = join(Deno.cwd(), args ?? ".");
+  const logger = new Logger();
+
+  if (!(await exists(cwd))) {
+    logger.error(`The directory at ${cwd} does not exist`, true);
+    Deno.exit(1);
+  }
 
   // load dyte config
   let appConfig: DyteConfig;
