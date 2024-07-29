@@ -116,7 +116,7 @@ export function serve(
       onAbort,
     ) => {
       const server = Deno.serve(
-        { port, hostname: serverOptions.host, onListen },
+        { port, hostname: serverOptions.host, onListen, cert: serverOptions.cert ? Deno.readTextFileSync(serverOptions.cert) : undefined, key: serverOptions.key ? Deno.readTextFileSync(serverOptions.key) : undefined },
         handler,
       );
       server.finished.then(onAbort);

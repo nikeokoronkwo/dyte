@@ -7,6 +7,8 @@ export interface ServerOptions {
   host: string;
   dir: string;
   dev?: boolean;
+  cert?: string;
+  key?: string;
   publicDir: string | undefined;
   publicRoot: string;
 }

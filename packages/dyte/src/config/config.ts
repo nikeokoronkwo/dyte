@@ -17,6 +17,10 @@ export async function getConfiguration(
 export function generateConfig(
   mode: DyteMode,
   cwd: string,
+  options?: {
+    httpsCert?: string,
+    httpsKey?: string,
+  }
 ): DyteConfig {
   return {
     root: cwd,
@@ -26,6 +30,10 @@ export function generateConfig(
     server: {
       port: 8000,
       host: "localhost",
+      https: (options?.httpsCert && options?.httpsKey) ? {
+        cert: options?.httpsCert,
+        key: options?.httpsKey,
+      } : undefined,
     },
     dev: {
       bundleDeps: true,

@@ -50,7 +50,10 @@ async function runCommand(options: RunOptions, args?: string) {
   // watch config for changes
   const config = await watchConfig({
     name: "dyte",
-    defaultConfig: generateConfig("development", args ?? "."),
+    defaultConfig: generateConfig(options.mode ?? "development", args ?? ".", {
+      httpsCert: options.tlsCert,
+      httpsKey: options.tlsKey,
+    }),
     cwd,
     onWatch: (event) => {
       console.log("[watcher]", event.type, event.path);

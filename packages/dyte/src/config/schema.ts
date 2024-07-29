@@ -1,5 +1,5 @@
 /** The Dyte Configuration */
-import {
+import type {
   BundleOptions as DenoBundleOptions,
   UserInputConfig,
 } from "../../deps.ts";
@@ -12,6 +12,12 @@ interface DyteServerConfig {
   port?: number;
   /** The hostname of the server. @default "localhost" */
   host?: string;
+
+  https?: {
+    cert?: string;
+
+    key?: string;
+  }
 }
 
 interface DyteNPMConfig {
