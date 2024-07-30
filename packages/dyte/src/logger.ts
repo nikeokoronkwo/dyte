@@ -58,7 +58,9 @@ export class Logger {
   fine(msg: string) {
     console.log(green(msg));
   }
-  cmd(msg: string) {}
+  cmd(msg: string) {
+    console.log(magenta(msg))
+  }
 
   verbose(msg: string) {}
 }
