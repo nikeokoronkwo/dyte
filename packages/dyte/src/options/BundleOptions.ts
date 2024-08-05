@@ -1,5 +1,5 @@
-import { DyteMode } from "../config/schema.ts";
-import { BundleOptions as DenoBundleOptions } from "../../deps.ts";
+import type { DyteMode } from "../config/schema.ts";
+import type { BundleOptions as DenoBundleOptions, esbuild } from "../../deps.ts";
 
 /**
  * The bundle options used to configure Deno's native bundler
@@ -8,8 +8,18 @@ import { BundleOptions as DenoBundleOptions } from "../../deps.ts";
  */
 export interface BundleOptions {
   /** The current bundle mode being used */
-  mode?: DyteMode;
+  mode: DyteMode;
 
   /** The deno bundle options used for configuring the bundler */
   denoOptions?: DenoBundleOptions;
+
+  outDir?: string;
+
+  cwd: string;
+
+  minify?: boolean;
+
+  splitting?: boolean;
+  
+  esbuildOptions?: esbuild.TransformOptions;
 }

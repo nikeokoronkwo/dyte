@@ -18,6 +18,7 @@ function createDevBundleOptions(
 ): BundleOptions {
   return {
     mode: config.mode ?? "development",
+    cwd: config.root ?? Deno.cwd(),
     denoOptions: config.denoOptions ?? {
       compilerOptions: denoConfig?.compilerOptions,
       importMap: denoConfig?.imports
@@ -37,6 +38,9 @@ function createProdBundleOptions(
 ): BundleOptions {
   return {
     mode: config.mode ?? "production",
+    minify: config.build?.minify,
+    outDir: config.build?.outdir,
+    cwd: config.root ?? Deno.cwd(),
     denoOptions: {
       minify: true,
       compilerOptions: denoConfig?.compilerOptions,
