@@ -1,6 +1,6 @@
-import { Command, join, exists } from "../deps.ts";
+import { Command, extname, join } from "../deps.ts";
 import { generateConfig, getConfiguration } from "../src/config/config.ts";
-import { DenoConfig, DenoFile } from "../src/options/DenoConfig.ts";
+import { DenoFile } from "../src/options/DenoConfig.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { bundle } from "../src/bundle.ts";
 import { resolveEntry } from "../src/cli/resolveEntry.js";
@@ -39,11 +39,8 @@ async function buildCommand(options: {
     true,
   );
 
-  let resolvedEntry = await resolveEntry(cwd, appConfig);
+  let resolvedEntry = await resolveEntry(cwd, appConfig, (f) => f.replace(extname(f), ".js"));
   let entryMap = resolvedEntry.map ?? new Map([[options.entry, `${(await hash(options.entry)).slice(0, 10)}.js`]]);
+  const map = await bundle(Array.from(entryMap.keys()).map(e => join(appConfig.root ?? cwd, e)), bundleOptions);
   
-  for (const [entry, out] of Array.from(entryMap.entries())) {
-    const b = await bundle(join(appConfig.root ?? cwd, entry), bundleOptions);
-    Deno.writeTextFileSync(join(outDir, out), b);
-  };
 }

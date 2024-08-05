@@ -2,6 +2,7 @@
 import type {
   BundleOptions as DenoBundleOptions,
   UserInputConfig,
+  esbuild,
 } from "../../deps.ts";
 
 export type DyteMode = "development" | "production";
@@ -114,8 +115,18 @@ export interface DyteBaseConfig {
      * The output directory for the build files
      */
     outdir?: string;
+
+    /** Whether to minify output @default true */
+    minify?: boolean;
+
+    /** Whether to enable code splitting @default true */
+    codesplitting?: boolean;
+
+    /** Options to pass to ESBuild for production bundling */
+    esbuildOptions?: esbuild.TransformOptions
   };
 
+  /** Options to pass to deno */
   denoOptions?: DenoBundleOptions;
 }
 

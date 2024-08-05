@@ -1,12 +1,12 @@
-import { bundle as denoBundle, transpile as denoTranspile } from "../deps.ts";
+import { bundle as denoBundle, transpile as denoTranspile, esbuild, join, extname } from "../deps.ts";
 
 import { BundleOptions } from "./options/BundleOptions.ts";
 
 /**
  * Bundles the code given the file entry
  */
-export async function bundle(entry: string, options: BundleOptions) {
-  if (options.mode === "development") {
+export async function bundle(entry: string | string[], options: BundleOptions) {
+  if (options.mode === "development" && typeof entry === "string") {
     return await devBundle(entry, options);
   } else {
     return await prodBundle(entry, options);
@@ -26,11 +26,29 @@ async function devBundle(entry: string, options: BundleOptions) {
 /**
  * The production Bundler or Transpiler used for bundling and minifying code for production.
  *
- * NOTE: The bundler uses Deno for bundling code by default, which does not support code splitting at the moment. You may need to use a code-splitting tool for such purpose.
+ * NOTE: The bundler uses ESBuild
  */
-async function prodBundle(entry: string, options: BundleOptions) {
-  const { code } = await denoBundle(entry, options.denoOptions);
-  return code;
+async function prodBundle(entry: string | string[], options: BundleOptions) {
+const entries = typeof entry === "string" ? [entry] : entry;
+  // bundle with esbuild
+  const output = await esbuild.build({
+    entryPoints: entries,
+    outdir: options.outDir ?? join(options.cwd ?? Deno.cwd(), "dist"),
+    bundle: true,
+    minify: options.minify ?? true,
+    splitting: options.splitting ?? true,
+    chunkNames: 'chunks/[hash]',
+    assetNames: 'assets/[hash]',
+    sourcemap: true,
+    write: true,
+  });
+
+  const outmap = entries.map(e => [e, e.replace(extname(e), ".js")])
+
+  return outmap.reduce<{ [input: string] : string }>((p, c) => {
+    p[c[0]] = c[1];
+    return p;
+  }, {});
 }
 
 /**

@@ -5,11 +5,13 @@ import { hash } from "./hash.js";
  * 
  * @param {string} cwd 
  * @param {import("../api/configs.ts").DyteConfig} [appConfig]
+ * @param {(filename: string) => string} [changeFunc]
  * @returns 
  */
 export async function resolveEntry(
   cwd,
   appConfig,
+  changeFunc
 ) {
   const indexFile = join(appConfig?.root ?? cwd, "index.html");
   if (await exists(indexFile)) {
@@ -18,10 +20,11 @@ export async function resolveEntry(
     const bodyHTML = document.body.innerHTML;
     const headHTML = document.head.innerHTML;
 
-    // /** @type {Array<string>} */
-    // const entryFiles = [];
     /** @type {Map<string, string>} */
     const map = new Map();
+
+      // /** @type {Array<string>} */
+    // const entryFiles = [];
 
     const scriptFiles = document.querySelectorAll("script");
     for (const node of scriptFiles) {
@@ -30,7 +33,7 @@ export async function resolveEntry(
         const src = node.getAttribute('src');
         if (src.startsWith("https://") || src.startsWith("http://")) continue;
         else {
-          const newFileName = `${(await hash(v.fullPath)).slice(0, 10)}.js`;
+          const newFileName = changeFunc ? changeFunc(src) : `${(await hash(v.fullPath)).slice(0, 10)}.js`;
           node.setAttribute("src", newFileName);
           map.set(src, newFileName);
         }

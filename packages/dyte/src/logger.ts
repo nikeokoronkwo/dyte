@@ -6,7 +6,7 @@ import {
   magenta,
   red,
   yellow,
-} from "jsr:@std/fmt/colors";
+} from "../deps.ts";
 
 type LogMode = "info" | "warn" | "error" | "fine" | "cmd" | "none";
 
