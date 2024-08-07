@@ -1,6 +1,6 @@
-import { BundleOptions } from "../options/BundleOptions.ts";
-import { DyteConfig } from "../config/schema.ts";
-import { DenoConfig } from "../options/DenoConfig.ts";
+import type { BundleOptions } from "../options/BundleOptions.ts";
+import type { DyteConfig } from "../config/schema.ts";
+import type { DenoConfig } from "../options/DenoConfig.ts";
 
 export function createBundleOptions(
   config: DyteConfig,
