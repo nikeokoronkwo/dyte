@@ -1,7 +1,7 @@
 {
   "workspace": [
-    "packages/dyte",
-    "packages/create-dyte"
+    "packages/spurte",
+    "packages/create-spurte"
   ],
   "version": "0.0.1-pre",
   "compilerOptions": {
@@ -14,10 +14,10 @@
     ]
   },
   "tasks": {
-    "dev": "deno run -A --watch packages/dyte/main.ts",
+    "dev": "deno run -A --watch packages/spurte/main.ts",
     "test": "deno test .",
     "format": "deno fmt .",
     "version": "deno run --allow-read --allow-write scripts/version.js",
-    "create": "deno run -A packages/create-dyte/main.js"
+    "create": "deno run -A packages/create-spurte/main.js"
   }
 }

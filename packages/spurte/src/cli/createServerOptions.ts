@@ -1,8 +1,8 @@
 import { ServerOptions } from "../options/ServeOptions.ts";
-import { DyteConfig } from "../config/schema.ts";
+import { SpurteConfig } from "../config/schema.ts";
 
 export function createServerOptions(
-  config: DyteConfig,
+  config: SpurteConfig,
   cwd: string,
 ): ServerOptions {
   return {

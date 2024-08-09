@@ -1,5 +1,5 @@
 {
-  "name": "@dyte/dyte",
+  "name": "@spurte/spurte",
   "exports": {
     ".": "./mod.ts"
   },

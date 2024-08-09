@@ -1,11 +1,11 @@
 /**
- * **Dyte**
- * @file The Dyte Entrypoint
- * @copyright The Dyte Authors
+ * **Spurte**
+ * @file The Spurte Entrypoint
+ * @copyright The Spurte Authors
  *
- * The Dyte entrypoint file
+ * The Spurte entrypoint file
  *
- * The Dyte CLI at the moment makes use of the
+ * The Spurte CLI at the moment makes use of the
  */
 
 import { Command } from "./deps.ts";
@@ -14,7 +14,7 @@ import run from "./commands/run.ts";
 import build from "./commands/build.ts";
 
 const main = new Command()
-  .name("dyte")
+  .name("spurte")
   .version(version)
   .description("Universal Frontend Tooling with Deno")
   .command("run", run)

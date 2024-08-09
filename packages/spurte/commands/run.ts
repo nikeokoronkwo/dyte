@@ -2,10 +2,10 @@ import { Command, EnumType, watchConfig, join, delay, exists } from "../deps.ts"
 import type { RunOptions } from "./run/options.ts";
 
 import { generateConfig } from "../src/config/config.ts";
-import type { DyteConfig } from "../src/config/schema.ts";
+import type { SpurteConfig } from "../src/config/schema.ts";
 import { createBundleOptions } from "../src/cli/createBundleOptions.ts";
 import { createServerOptions } from "../src/cli/createServerOptions.ts";
-import { type DyteActiveServer, serve } from "../src/server.ts";
+import { type SpurteActiveServer, serve } from "../src/server.ts";
 
 import { DenoFile } from "../src/options/DenoConfig.ts";
 import { Logger } from "../src/logger.ts";
@@ -13,8 +13,8 @@ import { Logger } from "../src/logger.ts";
 const mode = new EnumType(["development", "production"]);
 
 export default new Command()
-  .type("dyte-mode", mode)
-  .option("-m --mode <mode:dyte-mode>", "The mode to build for")
+  .type("spurte-mode", mode)
+  .option("-m --mode <mode:spurte-mode>", "The mode to build for")
   .option("--launch", "Launch Web Browser once server is built.")
   .option(
     "--tls-cert <cert>",
@@ -43,13 +43,13 @@ async function runCommand(options: RunOptions, args?: string) {
     Deno.exit(1);
   }
 
-  // load dyte config
-  let appConfig: DyteConfig;
-  let devServer: DyteActiveServer;
+  // load spurte config
+  let appConfig: SpurteConfig;
+  let devServer: SpurteActiveServer;
 
   // watch config for changes
   const config = await watchConfig({
-    name: "dyte",
+    name: "spurte",
     defaultConfig: generateConfig(options.mode ?? "development", args ?? ".", {
       httpsCert: options.tlsCert,
       httpsKey: options.tlsKey,
@@ -89,9 +89,9 @@ async function runCommand(options: RunOptions, args?: string) {
 }
 
 /** 
- * @todo Extend implementation of {@link DyteServer} 
+ * @todo Extend implementation of {@link SpurteServer} 
  */
-function createDevServer(cwd: string, appConfig: DyteConfig) {
+function createDevServer(cwd: string, appConfig: SpurteConfig) {
   // get deno config from deno.json file
   const deno = DenoFile.parse(join(appConfig.root ?? cwd, "deno.json"));
 

@@ -1,4 +1,4 @@
-# Dyte Goals
+# Spurte Goals
 
 ## Ongoing
 

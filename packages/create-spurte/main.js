@@ -15,7 +15,7 @@ const questions = [{
   type: "text",
   name: "name",
   message: "What's the name of your project",
-  initial: "dyte-project",
+  initial: "spurte-project",
   validate: (name) =>
     name.includes(".")
       ? "Project names cannot contain the dot ('.') character"

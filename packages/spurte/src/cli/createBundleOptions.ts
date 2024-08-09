@@ -1,9 +1,9 @@
 import type { BundleOptions } from "../options/BundleOptions.ts";
-import type { DyteConfig } from "../config/schema.ts";
+import type { SpurteConfig } from "../config/schema.ts";
 import type { DenoConfig } from "../options/DenoConfig.ts";
 
 export function createBundleOptions(
-  config: DyteConfig,
+  config: SpurteConfig,
   denoConfig?: DenoConfig,
   dev: boolean = false,
 ): BundleOptions {
@@ -13,7 +13,7 @@ export function createBundleOptions(
 }
 
 function createDevBundleOptions(
-  config: DyteConfig,
+  config: SpurteConfig,
   denoConfig?: DenoConfig,
 ): BundleOptions {
   return {
@@ -33,7 +33,7 @@ function createDevBundleOptions(
 }
 
 function createProdBundleOptions(
-  config: DyteConfig,
+  config: SpurteConfig,
   denoConfig?: DenoConfig,
 ): BundleOptions {
   return {

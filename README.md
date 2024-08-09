@@ -1,8 +1,8 @@
-# Dyte - Universal Frontend Tooling
+# Spurte - Universal Frontend Tooling
 
-Dyte is a drop in frontend dev server that supports Deno projects and modules
+Spurte is a drop in frontend dev server that supports Deno projects and modules
 
-<!-- Although Dyte was born out of concerns for dev tooling in the Deno ecosystem, Dyte has been developed to be a **runtime-agnostic** tool, making it easy to use across platforms. -->
+<!-- Although Spurte was born out of concerns for dev tooling in the Deno ecosystem, Spurte has been developed to be a **runtime-agnostic** tool, making it easy to use across platforms. -->
 
 ## Features
 

@@ -1,13 +1,13 @@
 import { join, loadConfig } from "../../deps.ts";
-import type { DyteConfig, DyteMode } from "./schema.ts";
+import type { SpurteConfig, SpurteMode } from "./schema.ts";
 
 export async function getConfiguration(
   options: any,
   args: string,
   cwd: string,
 ) {
-  const { config, configFile } = await loadConfig<DyteConfig>({
-    name: "dyte",
+  const { config, configFile } = await loadConfig<SpurteConfig>({
+    name: "spurte",
     defaultConfig: generateConfig(options, args),
   });
   if (config) return config;
@@ -15,13 +15,13 @@ export async function getConfiguration(
 }
 
 export function generateConfig(
-  mode: DyteMode,
+  mode: SpurteMode,
   cwd: string,
   options?: {
     httpsCert?: string,
     httpsKey?: string,
   }
-): DyteConfig {
+): SpurteConfig {
   return {
     root: cwd,
     base: "/",
