@@ -52,7 +52,7 @@ const entries = typeof entry === "string" ? [entry] : entry;
 }
 
 /**
- * The dev transpiler, used in transpiling deno files and updating the dependency graph for the Dyte Server
+ * The dev transpiler, used in transpiling deno files and updating the dependency graph for the Spurte Server
  */
 export async function devTranspile(
   entry: string,

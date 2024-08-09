@@ -1,13 +1,13 @@
 import { Folder } from "../src/file.js";
 
-/** @type {import("jsr:@dyte/deno-config").DenoConfig} */
+/** @type {import("jsr:@spurte/deno-config").DenoConfig} */
 const denoConfig = {
   tasks: {
-    dev: "dyte run",
-    build: "dyte build",
+    dev: "spurte run",
+    build: "spurte build",
   },
   imports: {
-    dyte: "jsr:@dyte/dyte",
+    spurte: "jsr:@spurte/spurte",
   },
 };
 
@@ -15,7 +15,7 @@ export default (name) =>
   new Folder(name, [
     new File("deno.json", JSON.stringify(denoConfig)),
     new File(
-      "dyte.config.js",
+      "spurte.config.js",
       "// add configuration here \nexport default {};",
     ),
     new File(
@@ -25,7 +25,7 @@ export default (name) =>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Dyte App</title>
+    <title>My Spurte App</title>
     <script src="src/main.js"></script>
 </head>
 <body>
@@ -39,7 +39,7 @@ export default (name) =>
         "main.js",
         `const element = document.createElement("div");
 element.innerHTML = \`<div>
-    A Simple Web App made with Dyte!
+    A Simple Web App made with Spurte!
 </div>\`;
 
 document.querySelector("#app").append(element)`,

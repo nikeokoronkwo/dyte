@@ -4,7 +4,7 @@ import { hash } from "./hash.js";
 /**
  * 
  * @param {string} cwd 
- * @param {import("../api/configs.ts").DyteConfig} [appConfig]
+ * @param {import("../api/configs.ts").SpurteConfig} [appConfig]
  * @param {(filename: string) => string} [changeFunc]
  * @returns 
  */

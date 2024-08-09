@@ -4,22 +4,22 @@ import { ServerOptions } from "./options/ServeOptions.ts";
 import { devTranspile } from "./bundle.ts";
 import { Resolver } from "./resolver.ts";
 
-export type DyteActiveServer = {
+export type SpurteActiveServer = {
   close: (onEnd: () => void) => void;
 };
 
-export type DyteServer = {
+export type SpurteServer = {
   listen: (
     port: number,
     onListen?: () => void,
     onAbort?: () => void,
-  ) => DyteActiveServer;
+  ) => SpurteActiveServer;
 };
 
 export function serve(
   serverOptions: ServerOptions,
   bundleOptions?: BundleOptions,
-): DyteServer {
+): SpurteServer {
   let dependencyMap = new Map<string, string>([]);
   /** @type {(req: Request) => Promise<Response>} */
   const handler: (req: Request) => Promise<Response> = async (

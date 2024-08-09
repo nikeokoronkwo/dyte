@@ -1,5 +1,5 @@
 // not production ready: do not implement
-export interface DytePlugin {
+export interface SpurtePlugin {
   name: string;
 
   resolve?: (url: string) => string | null;
