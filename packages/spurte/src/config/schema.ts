@@ -132,25 +132,25 @@ export interface SpurteBaseConfig {
   };
 
   /**
-   * Configure the server options for Dyte's development server
+   * Configure the server options for Spurte's development server
    */
-  server?: DyteServerConfig;
+  server?: SpurteServerConfig;
 
   /**
    * Config options for NPM packages used in the given project.
    *
    * NPM packages are denoted with the `npm:` specifier (`import React from "npm:react";`)
    */
-  npm?: DyteNPMConfig;
+  npm?: SpurteNPMConfig;
 
   /** Options to pass to deno */
   denoOptions?: DenoBundleOptions;
 
   /**
-   * The logging level for the dyte server
+   * The logging level for the spurte server
    * @default "none"
    */
-  logLevel?: DyteLogLevel;
+  logLevel?: SpurteLogLevel;
 
   /**
    * Whether hot module replacement is active on the given project
