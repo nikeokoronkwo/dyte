@@ -6,17 +6,20 @@ import type {
 } from "../../deps.ts";
 
 export type DyteMode = "development" | "production";
+type DyteLogLevel = "debug" | "info" | "warn" | "error" | "none"
 
 // TODO: Add support for https
 interface DyteServerConfig {
-  /** The server port number. @default 8080 */
+  /** The server port number. @default 8000 */
   port?: number;
   /** The hostname of the server. @default "localhost" */
   host?: string;
 
   https?: {
+    /** The path to the https certificate used for creating the https server */
     cert?: string;
 
+    /** The path to the https key used for creating the https server */
     key?: string;
   }
 }
@@ -58,15 +61,13 @@ export interface DyteBaseConfig {
 
   /**
    * Directory to serve plain static assets.
-   * If false, then no files will be served at the public directory
+   * @default 'public/'
    */
-  publicDir?: string | false;
+  publicDir?: string;
 
   /**
    * Where to serve plain static assets at the root directory of the project url.
    * Defaults to undefined to serve at project root.
-   *
-   * If {@link DyteBaseConfig#publicDir} is set to false, then this option is ignored.
    */
   publicRoot?: string;
 
@@ -82,18 +83,7 @@ export interface DyteBaseConfig {
    */
   denoConfig?: string;
 
-  /**
-   * Configure the server options for Dyte's development server
-   */
-  server?: DyteServerConfig;
-
-  /**
-   * Config options for NPM packages used in the given project.
-   *
-   * NPM packages are denoted with the `npm:` specifier (`import React from "npm:react";`)
-   */
-  npm?: DyteNPMConfig;
-
+  /** Development Options */
   dev?: {
     /**
      * Whether to bundle external dependencies or import them as-is.
@@ -113,6 +103,7 @@ export interface DyteBaseConfig {
   build?: {
     /**
      * The output directory for the build files
+     * @default "dist"
      */
     outdir?: string;
 
@@ -126,8 +117,32 @@ export interface DyteBaseConfig {
     esbuildOptions?: esbuild.TransformOptions
   };
 
+  /**
+   * Configure the server options for Dyte's development server
+   */
+  server?: DyteServerConfig;
+
+  /**
+   * Config options for NPM packages used in the given project.
+   *
+   * NPM packages are denoted with the `npm:` specifier (`import React from "npm:react";`)
+   */
+  npm?: DyteNPMConfig;
+
   /** Options to pass to deno */
   denoOptions?: DenoBundleOptions;
+
+  /**
+   * The logging level for the dyte server
+   * @default "none"
+   */
+  logLevel?: DyteLogLevel;
+
+  /**
+   * Whether hot module replacement is active on the given project
+   * @default true
+   */
+  hmr?: boolean;
 }
 
 /**
